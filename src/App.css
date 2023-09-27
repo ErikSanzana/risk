@@ -3,6 +3,7 @@ body {
   background-size: cover; /* Ajustar la imagen al tamaño de la ventana */
   background-repeat: no-repeat; /* Evitar que la imagen se repita */
   background-attachment: fixed; /* Fijar la imagen de fondo */
+  opacity: 0.7;
   /* Añade otros estilos que necesites para el cuerpo de la página */
 }
 
@@ -53,4 +54,23 @@ color: beige;
 }
 h1{
   color: beige;
+}
+h2{
+  color: beige;
+}
+ul{
+
+  justify-content: center;
+}
+.btn-custom {
+  background-color: red; /* Cambia este valor al color deseado */
+  color: blue; /* Cambia este valor al color deseado para el texto */
+  /* Agrega otros estilos según sea necesario */
+}
+
+.finalizado {
+  color: green;
+  border: 2px solid black;
+  opacity: 70%; /* Borde de 2px de ancho en color negro */
+  /* Agrega otros estilos que desees aplicar a las filas con estado "FINALIZADO" */
 }

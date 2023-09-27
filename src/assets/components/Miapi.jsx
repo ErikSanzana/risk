@@ -7,40 +7,44 @@ function parseDateFromString(dateString) {
 
 function MiApi({ searchTerm }) {
   const [searchResults, setSearchResults] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Realizar la solicitud GET a la API y aplicar filtrado
-    fetch('https://registro-1a4e7-default-rtdb.firebaseio.com/usuarios.json')
-      .then((response) => response.json())
-      .then((data) => {
-        if (data) {
-          // Convertir el objeto en un array de usuarios
-          const usuariosArray = Object.values(data);
-          // Filtrar los resultados basados en el término de búsqueda
-          const filteredResults = usuariosArray.filter((usuario) => {
-            return (
-              usuario.fecha_ban.includes(searchTerm) ||
-              usuario.id.includes(searchTerm) ||
-              usuario.motivo_ban.includes(searchTerm)
-            );
-          });
+    if (searchTerm.trim() !== '') { 
+      setLoading(true); 
 
-          // Ordenar los resultados por fecha
-          filteredResults.sort((a, b) => {
-            const dateA = parseDateFromString(a.fecha_ban);
-            const dateB = parseDateFromString(b.fecha_ban);
-            return dateA - dateB;
-          });
+      fetch('https://registro-1a4e7-default-rtdb.firebaseio.com/usuarios.json')
+        .then((response) => response.json())
+        .then((data) => {
+          if (data) {
+            const usuariosArray = Object.values(data);
+            
+            const filteredResults = usuariosArray.filter((usuario) => {
+              return (
+                usuario.fecha_ban.includes(searchTerm) ||
+                usuario.id.includes(searchTerm) ||
+                usuario.motivo_ban.includes(searchTerm)
+              );
+            });
 
-          setSearchResults(filteredResults);
-        }
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error al cargar datos de la API:', error);
-        setLoading(false);
-      });
+            filteredResults.sort((a, b) => {
+              const dateA = parseDateFromString(a.fecha_ban);
+              const dateB = parseDateFromString(b.fecha_ban);
+              return dateA - dateB;
+            });
+
+            setSearchResults(filteredResults);
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error('Error al cargar datos de la API:', error);
+          setLoading(false);
+        });
+    } else {
+      // Si searchTerm está vacío, establece los resultados en un array vacío
+      setSearchResults([]);
+    }
   }, [searchTerm]);
 
   return (
